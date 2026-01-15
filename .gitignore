@@ -1,0 +1,7 @@
+# Ignore all node_modules folders (any depth)
+node_modules/
+
+# Optional but recommended
+.env
+.DS_Store
+npm-debug.log*

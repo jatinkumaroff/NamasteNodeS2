@@ -1,0 +1,19 @@
+Middlewares:
+app.use can be used by all: get/post/patch etc 
+app.use("/route",()=>{
+    //this function is ROUTE HANDLER
+})
+
+if no response is mentioned in ROUTE HANDLER, it will hit infinite loop and will timeout
+
+we can have multiple ROUTE HANDLERS inside a single route:
+        app.use("/", ()=>{} , ()=>{} ,... );
+
+        but default only first RH is where flow goes and not in any of subsequent , to use those:
+        we add @param= next and call it in the funciton:
+        (req,res,next){
+            //function body
+            next();
+
+            but response is sent ONLY ONCE!!!
+        }
