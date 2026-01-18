@@ -1,4 +1,4 @@
-Middlewares:
+Middlewares(ROUTE HANDLERS):
 app.use can be used by all: get/post/patch etc 
 app.use("/route",()=>{
     //this function is ROUTE HANDLER
@@ -17,3 +17,5 @@ we can have multiple ROUTE HANDLERS inside a single route:
 
             but response is sent ONLY ONCE!!!
         }
+
+RES.SEND/RES.RENDER => sends back response and acts as return function
