@@ -1,0 +1,59 @@
+CONNECTION REQUEST
+ -review received connection request:     ACCEPT/REJECT 
+   API-:   POST -/request/review/:status/:requestId
+    -requestId => id of received request
+    -status    => accepted/rejected 
+   will be created inside request router
+
+ -Logic to ACCEPT/REJECT request:
+    check : toUserID === loggedInUser._id 
+    status: can be just [accepted,rejected]  , not anything else
+            if ignored    -> none can change it now , neither of both
+            if interested -> 
+    requestId: should be valid, present in out 
+    
+-------------------------------------------------------------------------------------------------------------------
+User Router:
+  creating user router containing following APIs:
+    -/user/requests/received     => get all the pending connection requests for the loggedInUser
+        checks: 
+            -received Logic: toUserID:loggedInUser._id;
+            -pengindg Logic: status:interested
+    -/user/connections
+    -/user/feed
+
+
+-------------------------------------------------------------------------------------------------------------------
+REF/RELATIONS:
+    from above stuff, we'll be getting the userId's that we are saving, but we will need names and other info also on the frontend
+    1. loop over them and attach info before passing 
+    2. or the better way=> BUILD RELATIONS by {ref:"user"} in Schema
+
+Populate:
+  await find({}).populate("",["",""]);  =>    populate("attribute from the object we just found",   [this is arrray of properties realted to])
+  foundObject=> instance of object we just found
+  arrayProperties=> array of properties related to that object in the ref Schema
+
+    it will return our item like:
+      .populate("fromUserId" , ["firstName", "lastName"]);  =>  fromUserId:{
+                                                                              _id:"eraefaaa",
+                                                                              firstName:"jatin",
+                                                                              lastName : "bajaj"
+                                                                              }
+    populate automatically fetches the said attributes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    FROM 1hr 10m => 13-REF Populate, not taking any notes, will write at the very end after redoing the whole project

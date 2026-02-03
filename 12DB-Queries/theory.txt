@@ -1,0 +1,71 @@
+now we'll start interactions between different users
+
+ whats a connection request
+ schema for storing connection requests
+ APIs for sending connection requests
+ --------------------------------------------------------------------------------------------------------
+CONNECTION SCHEMA
+    we wont be storing connection requests in userSchema as it can increase complexity
+    realtion bw two entities= connection will have its own Schema 
+
+        IN connectionRequestSchema , we'll store:
+        - sender =>  fromUserId {type: mongoose.Schema.Types.ObjectId , required:true }
+        - receiver=> toUserId   {type: mongoose.Schema.Types.ObjectId , required:true }
+        - status  => status     {type: String , 
+                                 enum:{
+                                    values:["ignore", "interested","accepted", "rejected"],
+                                    message: `$(VALUE) is incorrect status type`   
+                                 }, required:true};
+            (we'll use enum ie used to restrict to use only certain values = ignore, interested,accepted, rejected
+            message is the thing which is encountered when error encountered)
+        - timeStamps=> directly in connectionRequestSchema{ timeStamps:true }        
+
+        all of above are required feilds , so mandate them
+        now create the model
+
+    now after creating the above, we will move to creating APIs for :
+    -Sending Connection Request:
+        inside request router
+        fromUserId: from request(logged in user)
+        toUserId  :  in the req.params(route)
+        stataus   :  in the req.params(route)
+ --------------------------------------------------------------------------------------------------------
+PROBLEMS:
+        1. THIS IS NOT COMPLETE YET, WE CAN JUST ALLOW => INTERESETD/IGNORES OVER HERE = ACCEPT/REJECT IS THE TO USER'S RESPONSE
+            so now we'll wrtie logic to allow only this two in "sent/status" APIs
+        2. IF U1 sent request to U2, then U2 cant send req to U1.
+            check if U1->U2 already exists, before sending U2->U1
+                 MONGO CODING THING: $or=[{ }, { }]
+                 for checking U1->U2 or U1<-U2   or either of U1<=>U2 , we use:
+                 $or =[
+                    {fromUserId, toUserId},
+                    {fromUserId:toUserId , toUserId:fromUserIdc}
+                 ]
+        3. IF fromUserId is invalid, ie a random id in the route , we need to handle this by:
+            before creating request, check if the user is present in the db or not , if yes then carry on
+        4. Sending the connection request to yourself
+            we cant check it by == / === , these are not strings, use 1.equals(2) to check 1==2
+
+ --------------------------------------------------------------------------------------------------------
+PRE function: THIS IS WRITTEN INSIDE THE Schema PAGE ALWAYS , AND NO ARROW FUNC
+    pre function in schema: -> like event handler : schema.pre("NameOfEvent", function (){////CODE////})
+    
+       connectionRequestSchema.pre("save", function(){
+           
+           //whatever we write here is run before the specified event (save in this case) is called on the Schema(connectionRequestSchema in this case)
+           //WRITE VALIDATIONS HERE BEFORE COMPARING
+   
+       })
+
+ --------------------------------------------------------------------------------------------------------
+PUTTING INDEX IN DATABASE:
+
+    mutiple user with multiple requests will result in a lot of data in db, which makes querying expensive
+    for solving it, we need indexes in db on certain fields 
+
+    for this , just do :
+        index:true /or/ unique:true => indexing will be done by mongo db automaticallt
+
+    read indexes and compound indexes  :: these just sort data differently (asc,desc etc)
+    which helps in finding it through binary search instead of linear { O(N) => O(log(N)) }
+    should not create a lot of indexes, it makes db slow

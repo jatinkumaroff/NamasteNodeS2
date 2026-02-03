@@ -1,0 +1,17 @@
+the DB file is created inside config folder , inside src folder
+
+DB using seuence:
+    Require mongoose
+    Connect your app to DB=> {localhost /OR/ connectionString}
+    Create Schema
+    Create Model -> in src folder
+
+
+VERY IMPORTANT THINGS: 
+    move the app.listen thing to the db connectino try catch statement:
+
+    this way, server listens only after the DB is connected.... 
+    else if our server is running and db is not connected , this can pose some problem!
+
+
+ALWAYS WRAP ANYTHING INVOLVING DB INSIDE A TRY CATCH BLOCK!!!

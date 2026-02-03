@@ -1,0 +1,53 @@
+    AUTH:=> well have auth middleware created to use it directly in every place we need
+
+        we'll write the jwt-cookies code after where password is validated, we will:
+            -create a JWT token
+            -add token to the cookie
+            -send this cookie in response to user
+
+        now authentication part:
+        validation/authentication of cookie will be done in get: "/profile" route
+
+
+===============================================================================================================
+
+
+    JWT :
+      consist of 3 things:
+        -header
+        -payload
+        -signature 
+    creating token: jwt.sign(data, privatekey)  =>returns token that is to saved/sent
+    we have optional arg:{ expiresIn :...}  => 3rd arg
+    verifying jwt:  jwt.verify()    =>returns a decoded data , that we saved initialySTRING
+
+===============================================================================================================
+
+
+    CREATIN AUTHENTICATION MIDDLEWARE!!!!!!!!!!!!!!!!!!!!!!!!!!111111
+        -we can add it directtly in params of route , instead of register and signup - we need it for all
+        -CREATED middleware in middlewares/auth.js
+        -import it and add to APIS like:
+            app.get('/profile', userAuth , (req,res)=>{ })
+
+
+            IMPPORTANT: we found user in userAuth , but we need it in route too, so we'll find it again
+            which is redundant , so instead attach that user to request before passing:
+
+            req.user=user  => attached custom data to request for further routes 
+
+=======================================================================================================
+
+
+    MONGOOSE SCHEMA METHODS:::
+
+        we can attach few methods on userSchema that will be applicable for each user
+
+        we'll add "HANDLER" methods to offload the stuff, like=:   
+            instead of generating a jwt for each time, make this stuff attached with userSchema itself\
+            here dont use arrow functions , it'll break things as:
+                "this" keyword dont work with arrow functions
+                return jwt
+            use this created thing in login to provide jwt
+            
+                DO SIMILAR FOR passwordValidation and create function and use it!!!!!!!

@@ -1,0 +1,38 @@
+NEVER TRUST req.body , as it just gives us data coming in from an API and any type/amount of
+
+so as the /signup is entry point , we should :  
+    1. validation of data                       =>we'll be using UTILITY/HELPER FUNCTIONS for this
+    2. encrypt password => store in database
+
+
+
+        UTILITY / HELPER FUNCTIONS
+            -utils folder inside src
+            -validation.js in it
+            - create a function that checks body and throw errors 
+            - export the function and use it in app.js like:
+            - import and just use it in try block of signup : validateSignUpData(req);
+
+
+
+        ENCRYPT PASSWORD:
+        (done only after validation of signup data)
+            -install bcrypt
+            -bcrypt.hash(plaintext password, rounds of salt, )
+            - as it returns promie, use await bcrypt.hash
+
+            IMP: after securing password at signup, also do the same in updation!
+            "FIND A WAY OF HOW TO DO IT!!!!!!!!!!!!!!!!!!!!!!!!"
+
+using bcrypt.hash returns us a promise 
+
+
+
+            /login API:
+            - check if the mail entered is a valid email using validator
+            - check whether user with entered mail is present in database using findOne
+                -yes: fetch saved passwordHASH
+                -no : return error 
+            - password chekcing use await bcrypt.compare => takes plain text pass and hash saved for user and compare both
+            - bcrypt.compare => returns bool => async
+            - new problem=> getting password for the email entered and putting that into the second args

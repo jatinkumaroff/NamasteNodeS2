@@ -1,0 +1,27 @@
+req body consist of a lot of data and metadata
+but req.body consists of json data that we received
+to be able to use the json data received from request:
+            app.use(express.json())   => is a MUST
+            WHAT IS DOES IS =>  converts JSON to JavaScript Object and gives it
+                JSON:           {  "key" : "val"   } , at end gives error here
+                JS Object:      {   key  : "val" , }
+
+
+Model.find returns:      Array - if no then empty
+Model.findOne returns:   Object- if no then null
+
+
+
+TRY Using different http request type for different functions:
+        delete 
+        patch : update
+        post  : submit 
+        get   : render
+
+
+
+All this is w/o any validation, whatever crap can be passed
+
+there are multiple checks => data sanitisation
+
+min length, correct type, no duplication,privacy etc

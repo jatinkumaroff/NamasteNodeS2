@@ -1,0 +1,56 @@
+CHECKING DATA BEFORE using it for operations:::
+
+we're concerned about: post: and patch: APIs only, as these are inserting data
+
+to get timestamps in the db , while creating the schema :
+pass {timeStamps:true} as arguments
+
+SCHEMA VALIDATIONS:::::::::::::::::::::::
+
+OPTIONS IN TYPES/SCHEMA:
+    REQUIRED: makes field compulsory    =>      {  required:true  }
+    UNIQUE  : no duplication allowed    =>      {  unique  :true  }
+    DEFAULT : if no data is entered     =>      {  default :"abc" }
+    CASE-FLAG: to lowercase all         =>      { lowercase: true }
+    TRIM : removes whitespaces          =>      {   trim   : true }
+    MINIMUM LENGTH                      =>      { minLength:   3  }  =>similarly max    = STRING
+    MINIMUM                             =>      {   min    :  18  }  =>similarly max    = NUMBER
+    TIME :  mongoose.Schema({...},{  }) =>      {timestamps: true }  => contains createdAt and updatedAt
+    not added with schema, but here ^
+
+
+CUSTOM VALIDATION FUNCTION::::::::::
+
+validate(value){ }                               // value is the value assigned to the variable on which its being applied
+Example for gneder:
+    gender:{
+        type:String,
+        const allowedGender = ["male","female","others"];
+        validate(value){                                           =>works on just new data by default, not on updation
+            if(!allowedGender.includes(value)){                      so allow it inside update logic by:
+                throw new Error('Gender data not valid!!')          {  runValidator  :  true  }
+        }}}
+
+
+
+
+API-LEVEL VALIDATIONS::::::::::::::::
+    things like => {email updation not allowed} , ie only ceratin feilds can be updates, not all
+
+    write code on the received data and params in try block of patch: /user API;
+    from that, throw Errors wherever needed
+
+
+
+
+
+NPM VALIDATOR LIBRARY:::::::::::::::
+
+    validator.js
+    
+    
+    API LEVEL:::  validator.isEmail(req.body.emailId)    returns bool
+    SCHEMA LEVEL::::    inside schema, in emailId
+                validate(value){
+                    if(!validator.isEmail(value)) throw new Error("invalid email"+ value)
+                }

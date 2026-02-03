@@ -1,0 +1,40 @@
+APIs 
+    Grouping APIs we need for project
+     authRoutes
+        POST   /signup
+        POST   /login
+        POST   /logout
+
+    profileRouter
+        GET    /profile = view
+        PATCH  /profile = edit
+        PATCH  /profile = password(different for password)
+        
+        
+    connectionRequestRouter
+        POST   /request/send/interested/:userID
+        POST   /request/send/ignored/:userID
+        POST   /request/review/accepted/:requestID
+        POST   /request/review/rejected/:requestID
+
+    userRouter
+        GET    /user/connections
+        GET    /user/requests/received
+        GET    /user/feed =>core gets profile of other users 
+
+
+        STATUS: ignore(left swipe ), interested(right swipe) , accepted , rejected
+
+
+as we have this much api, we dont just use all in app.js, we use   
+    "express.Router"
+    - we'll basically group APIs and create routers to handle these
+
+
+    express.Router() === express()  (almost) 
+    so instead we use :
+        const router= express.Router()
+        router.get('/login')...
+
+        create files in "./src/routers" => add APIs here
+        import all the files of this folder into  app.js folder
