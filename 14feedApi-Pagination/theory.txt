@@ -1,0 +1,55 @@
+Home feed API:
+  bring data of other users and i can send requests
+
+  basic principles for feed building:
+    feed of Jatin should see everyone except:
+    - Jatin himself
+    - Ignores by Jatin
+    - Interesed by Jatin
+    - Already Connected
+
+  to stop above from the feed, we will create  a set of these users:
+
+  const hideUsersFromFeed = new Set() =>  unique elements
+  get connectionRequests including the above in connectionRequest.
+  loop through connectionRequest and add all to Set hideUsersFromFeed. (do onj id=> toString before adding)
+
+  NOW IMPORTANTT PART:
+    To find users except the hideUsersFromFeed:
+    Users.find({
+      condition( 1 && 2 )                                 //condition to find=> id Not Present In($nin)
+    })                                                    
+
+    1. condition(not in hideUsersFromFeed)  =>  _id:{ $nin: Array.from(hideUsersFromFeed )}
+    2. condition(myself)  =>  _id:{ $ne: loggedInUser._id }
+
+    NOW WE NEED condition(1 && 2)=>
+        $and:[
+            {  _id : { $nin: Array.from(hideUsersFromFeed) } },
+            {  _id : { $ne: loggedInUser._id } },
+        ]
+
+--------------------------------------------------------------------------------------------
+Chaining:
+  after model.find({}).populate()
+  after model.find({}).select()
+  after model.find({}).select().populate()
+
+
+-------------------------------------------------------------------------------------------------
+Safe Data:
+  create a const SAFE_DATA={ firstName, lastName, ...} =>that can be shared publically
+
+  now after selecting everything , at end chain: 
+  find({..}).select(SAFE_DATA)
+
+
+-----------------------------------------------------------------------------------------------------
+
+PAGINATION:
+
+  if there are 1000 users new user should not get all 999 users at once, it should be just 10 at a time
+  after user is done with 10 profiles, fetch new batch
+
+  complexity: 
+    -giving a limited batch
