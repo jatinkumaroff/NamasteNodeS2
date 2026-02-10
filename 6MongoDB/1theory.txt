@@ -8,7 +8,7 @@ DB using seuence:
 
 
 VERY IMPORTANT THINGS: 
-    move the app.listen thing to the db connectino try catch statement:
+    move the app.listen thing to the db connection try catch statement:
 
     this way, server listens only after the DB is connected.... 
     else if our server is running and db is not connected , this can pose some problem!

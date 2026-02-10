@@ -1,0 +1,14 @@
+private key is "null" in string
+
+
+    user stuff done, signup , login , logout 
+    requests onnection things done, send - review 
+    now need to create just connections, filtering those that are accepted
+    Profile things, like view profile, edit profile
+    then feed api and then finally pagination
+
+    profile router apis:
+        - profile view =>konhai already made
+        - profile edit =>PATCH request
+
+    
