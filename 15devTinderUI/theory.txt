@@ -1,0 +1,2 @@
+frontend starts from here:
+    STACK -> react + vite(bundler)
